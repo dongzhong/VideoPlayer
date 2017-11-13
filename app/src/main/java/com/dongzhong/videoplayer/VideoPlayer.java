@@ -124,7 +124,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setDataSource(context, Uri.parse(this.url));
-            setVideoPlayerListener(listener);
+            applyVideoPlayerListener();
             currentState = VideoPlayerConstant.CurrentState.CURRENT_STATE_PREPARING;
             mediaPlayer.prepareAsync();
         }
@@ -136,6 +136,10 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
 
     public void setVideoPlayerListener(final VideoPlayerListener listener) {
         this.listener = listener;
+        applyVideoPlayerListener();
+    }
+
+    private void applyVideoPlayerListener() {
         if (mediaPlayer != null) {
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
