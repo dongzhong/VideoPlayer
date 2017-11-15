@@ -1,4 +1,4 @@
-package com.dongzhong.videoplayer;
+package dongzhong.videoplayer;
 
 /**
  * Created by dongzhong on 2017/11/8.

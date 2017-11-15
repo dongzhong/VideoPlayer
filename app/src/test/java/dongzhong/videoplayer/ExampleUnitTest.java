@@ -1,4 +1,4 @@
-package com.dongzhong.videoplayer;
+package dongzhong.videoplayer;
 
 import org.junit.Test;
 

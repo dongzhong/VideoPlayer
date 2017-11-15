@@ -1,4 +1,4 @@
-package com.dongzhong.videoplayer;
+package dongzhong.videoplayer;
 
 import java.util.Formatter;
 import java.util.Locale;
