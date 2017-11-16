@@ -131,6 +131,13 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
 
     }
 
+    public void destroy() {
+        cancelCoverViewVisibleTimer();
+        cancelProgressTimer();
+        mediaPlayer.release();
+        mediaPlayer = null;
+    }
+
     public void setVideoPlayerListener(final VideoPlayerListener listener) {
         this.listener = listener;
         applyVideoPlayerListener();
