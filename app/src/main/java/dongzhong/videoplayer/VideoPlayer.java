@@ -91,6 +91,9 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
             }
         }
         else if (viewId == R.id.videoplayer_start) {
+            if (mediaPlayer == null) {
+                return;
+            }
             if (currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PREPARED
                     || currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PAUSE) {
                 currentState = VideoPlayerConstant.CurrentState.CURRENT_STATE_PLAYING;
@@ -117,7 +120,9 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
         }
 
         try {
-            mediaPlayer.release();
+            if (mediaPlayer != null) {
+                mediaPlayer.release();
+            }
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setDataSource(context, Uri.parse(this.url));
@@ -165,6 +170,9 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
         cancelProgressTimer();
         currentState = VideoPlayerConstant.CurrentState.CURRENT_STATE_NULL;
         coverViewState = VideoPlayerConstant.CoverViewState.COVER_VIEW_INVISIBLE;
+        if (mediaPlayer == null) {
+            return;
+        }
         mediaPlayer.release();
         mediaPlayer = null;
     }
@@ -378,6 +386,9 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            if (mediaPlayer == null) {
+                                return;
+                            }
                             if (currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PLAYING) {
                                 // TODO: 设置进度条和进度时间
                                 int position = mediaPlayer.getCurrentPosition();
