@@ -131,9 +131,40 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
 
     }
 
+    /**
+     * 暂停播放
+     */
+    public void pause() {
+        if (mediaPlayer == null) {
+            return;
+        }
+        if (currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PLAYING) {
+            currentState = VideoPlayerConstant.CurrentState.CURRENT_STATE_PAUSE;
+            mediaPlayer.pause();
+        }
+    }
+
+    /**
+     * 继续播放
+     */
+    public void resume() {
+        if (mediaPlayer == null) {
+            return;
+        }
+        if (currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PAUSE) {
+            currentState = VideoPlayerConstant.CurrentState.CURRENT_STATE_PLAYING;
+            mediaPlayer.start();
+        }
+    }
+
+    /**
+     * 销毁控件
+     */
     public void destroy() {
         cancelCoverViewVisibleTimer();
         cancelProgressTimer();
+        currentState = VideoPlayerConstant.CurrentState.CURRENT_STATE_NULL;
+        coverViewState = VideoPlayerConstant.CoverViewState.COVER_VIEW_INVISIBLE;
         mediaPlayer.release();
         mediaPlayer = null;
     }
