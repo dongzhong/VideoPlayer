@@ -395,13 +395,13 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
                                 int duration = mediaPlayer.getDuration();
                                 int percent = position * 100 / (duration == 0 ? 1 : duration);
                                 updateProgress(percent, position, duration);
-                                startView.setImageResource(R.drawable.ic_play);
-                            }
-                            else if (currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PAUSE) {
                                 startView.setImageResource(R.drawable.ic_pause);
                             }
+                            else if (currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PAUSE) {
+                                startView.setImageResource(R.drawable.ic_play);
+                            }
                             else {
-                                startView.setImageResource(R.drawable.new_play_video);
+                                startView.setImageResource(R.drawable.ic_play);
                             }
                         }
                     });
