@@ -519,24 +519,60 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
     }
 
     /*************** 设置UI *****************/
+    /**
+     * 设置播放暂停按钮的UI
+     * @param resPlay
+     * @param resPause
+     */
     public void setUIStartButton(int resPlay, int resPause) {
         setUIStartButtonPlay(resPlay);
         setUIStartButtonPause(resPause);
     }
 
+    /**
+     * 设置播放按钮的UI
+     * @param res
+     */
     public void setUIStartButtonPlay(int res) {
         ui_startButtonPlay = res;
     }
 
+    /**
+     * 设置暂停按钮的UI
+     * @param res
+     */
     public void setUIStartButtonPause(int res) {
         ui_startButtonPause = res;
     }
 
+    /**
+     * 设置返回按钮的UI
+     * @param res
+     */
     public void setUIBackButton(int res) {
         ui_backButton = res;
         if (backView != null) {
             backView.setImageResource(ui_backButton);
         }
+    }
+
+    /**
+     * 设置标题栏字体大小
+     * @param unit
+     * @param size
+     */
+    public void setTitleTextSize(int unit, float size) {
+        titleView.setTextSize(unit, size);
+    }
+
+    /**
+     * 设置时间字体大小
+     * @param unit
+     * @param size
+     */
+    public void setTimeTextViewSize(int unit, float size) {
+        nowTimeView.setTextSize(unit, size);
+        totalTimeView.setTextSize(unit, size);
     }
     /****************************************/
 }
