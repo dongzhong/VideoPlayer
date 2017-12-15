@@ -55,6 +55,12 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
     private VideoPlayerConstant.CoverViewState coverViewState = VideoPlayerConstant.CoverViewState.COVER_VIEW_VISIBLE;
     private boolean isTouchingSeekBar = false;
 
+    /******** UI资源 *********/
+    private int ui_startButtonPlay = R.drawable.ic_play;
+    private int ui_startButtonPause = R.drawable.ic_pause;
+    private int ui_backButton = R.drawable.ic_back;
+    /*************************/
+
     public VideoPlayer(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
@@ -292,6 +298,9 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
         totalTimeView = (TextView) findViewById(R.id.videoplayer_totaltime);
         seekBar = (SeekBar) findViewById(R.id.videoplayer_progress);
 
+        backView.setImageResource(ui_backButton);
+        startView.setImageResource(ui_startButtonPlay);
+
         displayViewHolder = displayView.getHolder();
         displayViewHolder.addCallback(new SurfaceHolder.Callback() {
             @Override
@@ -395,13 +404,16 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
                                 int duration = mediaPlayer.getDuration();
                                 int percent = position * 100 / (duration == 0 ? 1 : duration);
                                 updateProgress(percent, position, duration);
-                                startView.setImageResource(R.drawable.ic_pause);
+                                //startView.setImageResource(R.drawable.ic_pause);
+                                startView.setImageResource(ui_startButtonPause);
                             }
                             else if (currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PAUSE) {
-                                startView.setImageResource(R.drawable.ic_play);
+                                //startView.setImageResource(R.drawable.ic_play);
+                                startView.setImageResource(ui_startButtonPlay);
                             }
                             else {
-                                startView.setImageResource(R.drawable.ic_play);
+                                //startView.setImageResource(R.drawable.ic_play);
+                                startView.setImageResource(ui_startButtonPlay);
                             }
                         }
                     });
@@ -505,4 +517,26 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
             return "处于可见状态";
         }
     }
+
+    /*************** 设置UI *****************/
+    public void setUIStartButton(int resPlay, int resPause) {
+        setUIStartButtonPlay(resPlay);
+        setUIStartButtonPause(resPause);
+    }
+
+    public void setUIStartButtonPlay(int res) {
+        ui_startButtonPlay = res;
+    }
+
+    public void setUIStartButtonPause(int res) {
+        ui_startButtonPause = res;
+    }
+
+    public void setUIBackButton(int res) {
+        ui_backButton = res;
+        if (backView != null) {
+            backView.setImageResource(ui_backButton);
+        }
+    }
+    /****************************************/
 }
