@@ -17,15 +17,17 @@
         <LinearLayout
             android:id="@+id/videoplayer_title_control"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="top"
+            android:layout_marginLeft="40px"
+            android:layout_marginTop="20px"
             android:orientation="horizontal" >
 
             <ImageView
                 android:id="@+id/videoplayer_back"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:scaleType="centerInside"/>
 
             <TextView
@@ -40,14 +42,16 @@
         <LinearLayout
             android:id="@+id/videoplayer_bottom_control"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20px"
+            android:layout_marginLeft="40px"
             android:layout_gravity="bottom"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/videoplayer_start"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <SeekBar
                 android:id="@+id/videoplayer_progress"
