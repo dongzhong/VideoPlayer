@@ -474,7 +474,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
             seekBar.setProgress(percent);
         }
         nowTimeView.setText(Utils.parseTimeToString(currentTime));
-        totalTimeView.setText("/" + Utils.parseTimeToString(totalTime));
+        totalTimeView.setText(Utils.parseTimeToString(totalTime));
     }
 
     /**
