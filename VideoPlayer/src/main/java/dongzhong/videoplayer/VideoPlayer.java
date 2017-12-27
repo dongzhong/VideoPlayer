@@ -2,6 +2,7 @@ package dongzhong.videoplayer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -51,6 +52,7 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
 
     private String url;
     private String title;
+    private boolean needController = true;
     private boolean needPlayAfterPrepared = false;
 
     private VideoPlayerConstant.CurrentState currentState = VideoPlayerConstant.CurrentState.CURRENT_STATE_NULL;
@@ -67,51 +69,55 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
 
     public VideoPlayer(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.VideoPlayer);
+        needController = typedArray.getBoolean(R.styleable.VideoPlayer_need_controller, true);
         init(context);
     }
 
     @Override
     public void onClick(View view) {
-        int viewId = view.getId();
-        if (viewId == R.id.videoplayer_displayview) {
-            if (currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PLAYING
-                || currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PAUSE) {
-                if (coverViewState == VideoPlayerConstant.CoverViewState.COVER_VIEW_VISIBLE) {
-                    coverViewState = VideoPlayerConstant.CoverViewState.COVER_VIEW_INVISIBLE;
-                    setControllerVisibility(false);
-                    cancelCoverViewVisibleTimer();
+        if (needController) {
+            int viewId = view.getId();
+            if (viewId == R.id.videoplayer_displayview) {
+                if (currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PLAYING
+                        || currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PAUSE) {
+                    if (coverViewState == VideoPlayerConstant.CoverViewState.COVER_VIEW_VISIBLE) {
+                        coverViewState = VideoPlayerConstant.CoverViewState.COVER_VIEW_INVISIBLE;
+                        setControllerVisibility(false);
+                        cancelCoverViewVisibleTimer();
+                    }
+                    else {
+                        coverViewState = VideoPlayerConstant.CoverViewState.COVER_VIEW_VISIBLE;
+                        setControllerVisibility(true);
+                        startCoverViewVisibleTimer();
+                    }
                 }
-                else {
-                    coverViewState = VideoPlayerConstant.CoverViewState.COVER_VIEW_VISIBLE;
-                    setControllerVisibility(true);
-                    startCoverViewVisibleTimer();
+            }
+            else if (viewId == R.id.videoplayer_back) {
+                currentState = VideoPlayerConstant.CurrentState.CURRENT_STATE_NULL;
+                coverViewState = VideoPlayerConstant.CoverViewState.COVER_VIEW_VISIBLE;
+                cancelProgressTimer();
+                cancelCoverViewVisibleTimer();
+                if (mediaPlayer != null) {
+                    mediaPlayer.release();
+                }
+                if (listener != null) {
+                    listener.onBack();
                 }
             }
-        }
-        else if (viewId == R.id.videoplayer_back) {
-            currentState = VideoPlayerConstant.CurrentState.CURRENT_STATE_NULL;
-            coverViewState = VideoPlayerConstant.CoverViewState.COVER_VIEW_VISIBLE;
-            cancelProgressTimer();
-            cancelCoverViewVisibleTimer();
-            if (mediaPlayer != null) {
-                mediaPlayer.release();
-            }
-            if (listener != null) {
-                listener.onBack();
-            }
-        }
-        else if (viewId == R.id.videoplayer_start) {
-            if (mediaPlayer == null) {
-                return;
-            }
-            if (currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PREPARED
-                    || currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PAUSE) {
-                currentState = VideoPlayerConstant.CurrentState.CURRENT_STATE_PLAYING;
-                mediaPlayer.start();
-            }
-            else if (currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PLAYING) {
-                currentState = VideoPlayerConstant.CurrentState.CURRENT_STATE_PAUSE;
-                mediaPlayer.pause();
+            else if (viewId == R.id.videoplayer_start) {
+                if (mediaPlayer == null) {
+                    return;
+                }
+                if (currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PREPARED
+                        || currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PAUSE) {
+                    currentState = VideoPlayerConstant.CurrentState.CURRENT_STATE_PLAYING;
+                    mediaPlayer.start();
+                }
+                else if (currentState == VideoPlayerConstant.CurrentState.CURRENT_STATE_PLAYING) {
+                    currentState = VideoPlayerConstant.CurrentState.CURRENT_STATE_PAUSE;
+                    mediaPlayer.pause();
+                }
             }
         }
     }
@@ -302,8 +308,16 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
         totalTimeView = (TextView) findViewById(R.id.videoplayer_totaltime);
         seekBar = (SeekBar) findViewById(R.id.videoplayer_progress);
 
-//        backView.setImageResource(ui_backButton);
-//        startView.setImageResource(ui_startButtonPlay);
+        if (!needController) {
+            titleControlView.setVisibility(GONE);
+            titleView.setVisibility(GONE);
+            backView.setVisibility(GONE);
+            bottomControlView.setVisibility(GONE);
+            startView.setVisibility(GONE);
+            nowTimeView.setVisibility(GONE);
+            totalTimeView.setVisibility(GONE);
+            seekBar.setVisibility(GONE);
+        }
 
         displayViewHolder = displayView.getHolder();
         displayViewHolder.addCallback(new SurfaceHolder.Callback() {
