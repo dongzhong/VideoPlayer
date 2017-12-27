@@ -535,6 +535,34 @@ public class VideoPlayer extends FrameLayout implements View.OnClickListener {
 
     /*************** 设置UI *****************/
     /**
+     * 设置是否需要控制栏
+     * @param needController
+     */
+    public void setNeedController(boolean needController) {
+        this.needController = needController;
+        if (needController) {
+            titleControlView.setVisibility(VISIBLE);
+            titleView.setVisibility(VISIBLE);
+            backView.setVisibility(VISIBLE);
+            bottomControlView.setVisibility(VISIBLE);
+            startView.setVisibility(VISIBLE);
+            nowTimeView.setVisibility(VISIBLE);
+            totalTimeView.setVisibility(VISIBLE);
+            seekBar.setVisibility(VISIBLE);
+        }
+        else {
+            titleControlView.setVisibility(GONE);
+            titleView.setVisibility(GONE);
+            backView.setVisibility(GONE);
+            bottomControlView.setVisibility(GONE);
+            startView.setVisibility(GONE);
+            nowTimeView.setVisibility(GONE);
+            totalTimeView.setVisibility(GONE);
+            seekBar.setVisibility(GONE);
+        }
+    }
+
+    /**
      * 设置播放暂停按钮的UI
      * @param resPlay
      * @param resPause
