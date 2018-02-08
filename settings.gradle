@@ -1,1 +1,1 @@
-include ':VideoPlayer'
+include ':VideoPlayer', ':testvideoplayer'
